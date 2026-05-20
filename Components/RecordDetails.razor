@@ -3,34 +3,34 @@
 
 <section>
 <div class ="card">
-    <h3 class="task-name card-header-title">Title: @album.Name</h3>
-        <InputText @bind-Value="_Name" @oninput="e => InputChecker(1, _Name)" />
-        <p>@_NameValid </p>
-    <button @onclick="() => SetDetail(1)">Set Value</button>
+    <h2 class="task-name card-header-title">Title: @album.Name</h2>
+        <InputText @bind-Value="_Name" @oninput="e => InputChecker(1, e.Value?.ToString())" />
+        <p> - @_NameValid </p>
+        <button @onclick="() => SetDetail(1)">Set Value</button>
 
-    <h2 class="task-name card-header-title">Unique ID: @album.AlbumId</h2>
+    <h3 class="task-name card-header-title">Unique ID: @album.AlbumId</h3>
         <InputText @bind-Value="_AlbumId" @oninput="e => InputChecker(2, e.Value?.ToString())" />
-        <p>@_AlbumIdValid </p>
+        <p> - @_AlbumIdValid </p>
         <button @onclick="() => SetDetail(2)">Set Value</button>
 
-    <p class="task-description card-content">Aritst: @album.ArtistId</p>
-        <InputText @bind-Value="_ArtistId" @oninput="e => InputChecker(3, e.Value?.ToString())" />
-        <p>@_ArtistIdValid </p>
-        <button @onclick="() => SetDetail(3)">Set Value</button>
-
-    <p class="task-description card-content">Genre: @album.Genre</p>
-        <InputText @bind-Value="_Genre" @oninput="e => InputChecker(4, e.Value?.ToString())" />
-        <p>@_GenreValid </p>
-        <button @onclick="() => SetDetail(4)">Set Value</button>
-
-    <p class="task-description card-content">Release Year: @album.Year</p>
-        <InputText @bind-Value="_Year" @oninput="e => InputChecker(5, e.Value?.ToString())" />
-        <p>@_YearValid </p>
+        <h4 class="task-description card-content">Artist: @string.Join(", ", album.ArtistId)</h4>
+        <InputText @bind-Value="_ArtistId" @oninput="e => InputChecker(5, e.Value?.ToString())" />
+        <p>- @_ArtistIdValid </p>
         <button @onclick="() => SetDetail(5)">Set Value</button>
 
-    <p class="task-description card-content">Price: @album.Price</p>
+    <h4 class="task-description card-content">Genre: @album.Genre</h4>
+        <InputText @bind-Value="_Genre" @oninput="e => InputChecker(4, e.Value?.ToString())" />
+        <p>- @_GenreValid </p>
+        <button @onclick="() => SetDetail(4)">Set Value</button>
+
+    <h4 class="task-description card-content">Release Year: @album.Year</h4>
+        <InputText @bind-Value="_Year" @oninput="e => InputChecker(3, e.Value?.ToString())" />
+        <p>- @_YearValid </p>
+        <button @onclick="() => SetDetail(3)">Set Value</button>
+
+    <h4 class="task-description card-content">Price: @album.Price</h4>
         <InputText @bind-Value="_Price" @oninput="e => InputChecker(6, e.Value?.ToString())" />
-        <p>@_PriceValid </p>
+        <p>- @_PriceValid </p>
         <button @onclick="() => SetDetail(6)">Set Value</button>
 
 </div>
@@ -65,15 +65,25 @@
     public int _artistId;
     public int _price;
 
+    public enum GuideKey
+    {
+        Name = 1,
+        AlbumId = 2,
+        Year = 3,
+        Genre = 4,
+        ArtistId = 5,
+        Price = 6,
+    }
+
     public void InputChecker(int guideKey, string input)
     {
         if (guideKey == 1)
         {
-            if (string.IsNullOrWhiteSpace(input))
+            if(string.IsNullOrWhiteSpace(input))
             {
                 _NameValid = string.Empty;
             }
-            if (input.Length < 3)
+            else if (input.Length < 3)
             {
                 _NameValid = "Invalid";
             }
@@ -83,22 +93,41 @@
             }
         }
 
+        if (guideKey == 4)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _GenreValid = string.Empty;
+            }
+            else if (input.Length < 3)
+            {
+                _GenreValid = "Invalid";
+            }
+            else
+            {
+                _GenreValid = "Valid";
+            }
+        }
+
         if (guideKey == 2)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
                 _AlbumIdValid = string.Empty;
             }
-            int albumId;
-            bool typeCorrect = int.TryParse(input, out albumId);
-            if (!typeCorrect)
-            {
-                _AlbumIdValid = "Invalid";
-            }
             else
             {
-                _AlbumIdValid = "Valid";
-                _albumId = albumId;
+                int albumId;
+                bool typeCorrect = int.TryParse(input, out albumId);
+                if (!typeCorrect)
+                {
+                    _AlbumIdValid = "Invalid";
+                }
+                else
+                {
+                    _AlbumIdValid = "Valid";
+                    _albumId = albumId;
+                }
             }
         }
 
@@ -106,65 +135,67 @@
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                _ArtistIdValid = string.Empty;
+                _YearValid = string.Empty;
             }
-            int artistId;
-            bool isInt = int.TryParse(input, out artistId);
-            if (!isInt)
-            {
-                _ArtistIdValid = "Invalid";
-            }
-            else
-            {
-                _ArtistIdValid = "Valid";
-                _artistId = artistId;
-            }
-        }
 
-        if (guideKey == 4)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-            {
-                _PriceValid = string.Empty;
+            else {
+                int year;
+                bool typeCorrect = int.TryParse(input, out year);
+                if (!typeCorrect)
+                {
+                    _YearValid = "Invalid";
+                }
+                else
+                {
+                    _YearValid = "Valid";
+                    _year = year;
+                }
             }
-            int price;
-            bool isInt = int.TryParse(input, out price);
-            if (!isInt)
-            {
-                _PriceValid = "Invalid";
-            }
-            else
-            {
-                _PriceValid = "Valid";
-                _price = price;
-            }
-       
         }
 
         if (guideKey == 5)
         {
-            
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _ArtistIdValid = string.Empty;
+            }
+            else
+            {
+                int artistId;
+                bool isInt = int.TryParse(input, out artistId);
+                if (!isInt)
+                {
+                    _ArtistIdValid = "Invalid";
+                }
+                else
+                {
+                    _ArtistIdValid = "Valid";
+                    _artistId = artistId;
+                }
+            }
         }
 
         if (guideKey == 6)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                _YearValid = string.Empty;
-            }
-            int year;
-            bool isInt = int.TryParse(input, out year);
-            if (!isInt)
-            {
-                _YearValid = "Invalid";
+                _PriceValid = string.Empty;
             }
             else
             {
-                _YearValid = "Valid";
-                _year = year;
+                int price;
+                bool isInt = int.TryParse(input, out price);
+                if (!isInt)
+                {
+                    _PriceValid = "Invalid";
+                }
+                else
+                {
+                    _PriceValid = "Valid";
+                    _price = price;
+                }
             }
         }
-
      }
 
     public void SetDetail(int guideKey)
