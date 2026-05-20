@@ -2,36 +2,41 @@
 @using BlazorApp1.Models
 
 <section>
+
+
 <div class ="card">
-    <h2 class="task-name card-header-title">Title: @album.Name</h2>
+    <h2 class="task-name card-header-title">Title: @LocalAlbum.Name</h2>
         <InputText @bind-Value="_Name" @oninput="e => InputChecker(1, e.Value?.ToString())" />
         <p> - @_NameValid </p>
         <button @onclick="() => SetDetail(1)">Set Value</button>
 
-    <h3 class="task-name card-header-title">Unique ID: @album.AlbumId</h3>
+    <h3 class="task-name card-header-title">Unique ID: @LocalAlbum.AlbumId</h3>
         <InputText @bind-Value="_AlbumId" @oninput="e => InputChecker(2, e.Value?.ToString())" />
         <p> - @_AlbumIdValid </p>
         <button @onclick="() => SetDetail(2)">Set Value</button>
 
-        <h4 class="task-description card-content">Artist: @string.Join(", ", album.ArtistId)</h4>
+        <h4 class="task-description card-content">Artist: @string.Join(", ", LocalAlbum.ArtistId)</h4>
         <InputText @bind-Value="_ArtistId" @oninput="e => InputChecker(5, e.Value?.ToString())" />
         <p>- @_ArtistIdValid </p>
         <button @onclick="() => SetDetail(5)">Set Value</button>
 
-    <h4 class="task-description card-content">Genre: @album.Genre</h4>
+    <h4 class="task-description card-content">Genre: @LocalAlbum.Genre</h4>
         <InputText @bind-Value="_Genre" @oninput="e => InputChecker(4, e.Value?.ToString())" />
         <p>- @_GenreValid </p>
         <button @onclick="() => SetDetail(4)">Set Value</button>
 
-    <h4 class="task-description card-content">Release Year: @album.Year</h4>
+    <h4 class="task-description card-content">Release Year: @LocalAlbum.Year</h4>
         <InputText @bind-Value="_Year" @oninput="e => InputChecker(3, e.Value?.ToString())" />
         <p>- @_YearValid </p>
         <button @onclick="() => SetDetail(3)">Set Value</button>
 
-    <h4 class="task-description card-content">Price: @album.Price</h4>
+    <h4 class="task-description card-content">Price: @LocalAlbum.Price</h4>
         <InputText @bind-Value="_Price" @oninput="e => InputChecker(6, e.Value?.ToString())" />
         <p>- @_PriceValid </p>
         <button @onclick="() => SetDetail(6)">Set Value</button>
+
+        <button @onclick="() => UpdateAlbum()"> Save changes </button>
+        <button @onclick="() => OnInitialized()"> Clear Changes</button>
 
 </div>
 </section>
@@ -40,6 +45,28 @@
 
     [Parameter]
     public Album album { get; set; }
+
+    private Album LocalAlbum = new();
+    protected override void OnInitialized()
+    {
+        LocalAlbum = new Album {
+            AlbumId = album.AlbumId,
+            ArtistId = album.ArtistId.ToArray(), 
+            Genre = album.Genre,
+            Name = album.Name,
+            Price = album.Price,
+            Year = album.Year };
+    }
+    
+    private void UpdateAlbum()
+    {
+        album.AlbumId = LocalAlbum.AlbumId;
+        album.ArtistId = LocalAlbum.ArtistId;
+        album.Genre = LocalAlbum.Genre;
+        album.Name = LocalAlbum.Name;
+        album.Price = LocalAlbum.Price;
+        album.Year = LocalAlbum.Year;
+    }
 
     private string _AlbumId = string.Empty;
     private string _Year = string.Empty;
@@ -205,7 +232,7 @@
         {
             if (_NameValid == "Valid")
             {
-                album.Name = _Name;
+                LocalAlbum.Name = _Name;
                 _Name = string.Empty;
             }
         }
@@ -214,7 +241,7 @@
         {
             if (_AlbumIdValid == "Valid")
             {
-                album.AlbumId = _albumId;
+                LocalAlbum.AlbumId = _albumId;
                 _AlbumId = string.Empty;
             }
         }
@@ -223,7 +250,7 @@
         {
             if (_YearValid == "Valid")
             {
-                album.Year = _year;
+                LocalAlbum.Year = _year;
                 _Year = string.Empty;
             }
         }
@@ -232,7 +259,7 @@
         {
             if (_GenreValid == "Valid")
             {
-                album.Genre = _Genre;
+                LocalAlbum.Genre = _Genre;
                 _Genre = string.Empty;
             }
         }
@@ -241,7 +268,7 @@
         {
             if (_ArtistIdValid == "Valid")
             {
-                album.ArtistId = album.ArtistId.Append(_artistId).ToArray();
+                LocalAlbum.ArtistId = LocalAlbum.ArtistId.Append(_artistId).ToArray();
                 _ArtistId = string.Empty;
             }
         }
@@ -250,7 +277,7 @@
         {
             if (_PriceValid == "Valid")
             {
-                album.Price = _price;
+                LocalAlbum.Price = _price;
                 _Price = string.Empty;
             }
         }
