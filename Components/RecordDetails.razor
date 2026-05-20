@@ -1,0 +1,227 @@
+﻿@rendermode InteractiveServer
+@using BlazorApp1.Models
+
+<section>
+<div class ="card">
+    <h3 class="task-name card-header-title">Title: @album.Name</h3>
+        <InputText @bind-Value="_Name" @oninput="e => InputChecker(1, _Name)" />
+        <p>@_NameValid </p>
+    <button @onclick="() => SetDetail(1)">Set Value</button>
+
+    <h2 class="task-name card-header-title">Unique ID: @album.AlbumId</h2>
+        <InputText @bind-Value="_AlbumId" @oninput="e => InputChecker(2, e.Value?.ToString())" />
+        <p>@_AlbumIdValid </p>
+        <button @onclick="() => SetDetail(2)">Set Value</button>
+
+    <p class="task-description card-content">Aritst: @album.ArtistId</p>
+        <InputText @bind-Value="_ArtistId" @oninput="e => InputChecker(3, e.Value?.ToString())" />
+        <p>@_ArtistIdValid </p>
+        <button @onclick="() => SetDetail(3)">Set Value</button>
+
+    <p class="task-description card-content">Genre: @album.Genre</p>
+        <InputText @bind-Value="_Genre" @oninput="e => InputChecker(4, e.Value?.ToString())" />
+        <p>@_GenreValid </p>
+        <button @onclick="() => SetDetail(4)">Set Value</button>
+
+    <p class="task-description card-content">Release Year: @album.Year</p>
+        <InputText @bind-Value="_Year" @oninput="e => InputChecker(5, e.Value?.ToString())" />
+        <p>@_YearValid </p>
+        <button @onclick="() => SetDetail(5)">Set Value</button>
+
+    <p class="task-description card-content">Price: @album.Price</p>
+        <InputText @bind-Value="_Price" @oninput="e => InputChecker(6, e.Value?.ToString())" />
+        <p>@_PriceValid </p>
+        <button @onclick="() => SetDetail(6)">Set Value</button>
+
+</div>
+</section>
+
+@code {
+
+    [Parameter]
+    public Album album { get; set; }
+
+    private string _AlbumId = string.Empty;
+    private string _Year = string.Empty;
+    private string _Name = string.Empty;
+    private string _Genre = string.Empty;
+    private string _ArtistId = string.Empty;
+    private string _Price = string.Empty;
+
+    public string[] Validity = [string.Empty, "Valid", "Invalid"];
+
+    private string _AlbumIdValid = string.Empty;
+    private string _YearValid = string.Empty;
+    private string _NameValid = string.Empty;
+    private string _GenreValid = string.Empty;
+    private string _ArtistIdValid = string.Empty;
+    private string _PriceValid = string.Empty;
+
+    // typedvalues
+    public int _albumId;
+    public int _year;
+    public string _name;
+    public string _genre;
+    public int _artistId;
+    public int _price;
+
+    public void InputChecker(int guideKey, string input)
+    {
+        if (guideKey == 1)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _NameValid = string.Empty;
+            }
+            if (input.Length < 3)
+            {
+                _NameValid = "Invalid";
+            }
+            else
+            {
+                _NameValid = "Valid";
+            }
+        }
+
+        if (guideKey == 2)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _AlbumIdValid = string.Empty;
+            }
+            int albumId;
+            bool typeCorrect = int.TryParse(input, out albumId);
+            if (!typeCorrect)
+            {
+                _AlbumIdValid = "Invalid";
+            }
+            else
+            {
+                _AlbumIdValid = "Valid";
+                _albumId = albumId;
+            }
+        }
+
+        if (guideKey == 3)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _ArtistIdValid = string.Empty;
+            }
+            int artistId;
+            bool isInt = int.TryParse(input, out artistId);
+            if (!isInt)
+            {
+                _ArtistIdValid = "Invalid";
+            }
+            else
+            {
+                _ArtistIdValid = "Valid";
+                _artistId = artistId;
+            }
+        }
+
+        if (guideKey == 4)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _PriceValid = string.Empty;
+            }
+            int price;
+            bool isInt = int.TryParse(input, out price);
+            if (!isInt)
+            {
+                _PriceValid = "Invalid";
+            }
+            else
+            {
+                _PriceValid = "Valid";
+                _price = price;
+            }
+       
+        }
+
+        if (guideKey == 5)
+        {
+            
+        }
+
+        if (guideKey == 6)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                _YearValid = string.Empty;
+            }
+            int year;
+            bool isInt = int.TryParse(input, out year);
+            if (!isInt)
+            {
+                _YearValid = "Invalid";
+            }
+            else
+            {
+                _YearValid = "Valid";
+                _year = year;
+            }
+        }
+
+     }
+
+    public void SetDetail(int guideKey)
+    {
+
+        if (guideKey == 1)
+        {
+            if (_NameValid == "Valid")
+            {
+                album.Name = _Name;
+                _Name = string.Empty;
+            }
+        }
+
+        if (guideKey == 2)
+        {
+            if (_AlbumIdValid == "Valid")
+            {
+                album.AlbumId = _albumId;
+                _AlbumId = string.Empty;
+            }
+        }
+
+        if (guideKey == 3)
+        {
+            if (_YearValid == "Valid")
+            {
+                album.Year = _year;
+                _Year = string.Empty;
+            }
+        }
+
+        if (guideKey == 4)
+        {
+            if (_GenreValid == "Valid")
+            {
+                album.Genre = _Genre;
+                _Genre = string.Empty;
+            }
+        }
+
+        if (guideKey == 5)
+        {
+            if (_ArtistIdValid == "Valid")
+            {
+                album.ArtistId = album.ArtistId.Append(_artistId).ToArray();
+                _ArtistId = string.Empty;
+            }
+        }
+
+        if (guideKey == 6)
+        {
+            if (_PriceValid == "Valid")
+            {
+                album.Price = _price;
+                _Price = string.Empty;
+            }
+        }
+    }
+}

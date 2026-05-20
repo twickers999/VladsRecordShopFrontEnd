@@ -1,0 +1,43 @@
+
+  [
+    {
+      "AlbumId": 1,
+      "Year": 1991,
+      "Name": "Nevermind",
+      "Genre": "Grunge",
+      "ArtistId": [ 1 ],
+      "Price": 12
+    },
+    {
+      "AlbumId": 2,
+      "Year": 1982,
+      "Name": "Thriller",
+      "Genre": "Pop",
+      "ArtistId": [ 2 ],
+      "Price": 15
+    },
+    {
+      "AlbumId": 3,
+      "Year": 2016,
+      "Name": "25",
+      "Genre": "Soul",
+      "ArtistId": [ 3 ],
+      "Price": 14
+    },
+    {
+      "AlbumId": 4,
+      "Year": 1973,
+      "Name": "The Dark Side of the Moon",
+      "Genre": "Progressive Rock",
+      "ArtistId": [ 4 ],
+      "Price": 13
+    },
+    {
+      "AlbumId": 5,
+      "Year": 2000,
+      "Name": "Hybrid Theory",
+      "Genre": "Nu Metal",
+      "ArtistId": [ 5 ],
+      "Price": 11
+    }
+  ]

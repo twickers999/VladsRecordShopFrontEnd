@@ -1,0 +1,28 @@
+﻿@using System.Text.Json;
+@using BlazorApp1.Models
+
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Vlad's Record Shop</h1>
+
+Frank Sinatra pays the bills here
+
+<section class="section">
+    <RecordDetails album="_localAlbum" ></RecordDetails>
+
+</section>
+
+
+@code{
+    public static List<T> GetFileContent<T>(string filePath)
+    {
+        var json = File.ReadAllText(filePath);
+        return JsonSerializer.Deserialize<List<T>>(json);
+    }
+
+   public List<Album> _localAlbums = GetFileContent<Album>("./Resources/TESTAlbums.json");
+
+    public Album _localAlbum = GetFileContent<Album>("./Resources/TESTAlbums.json").First();
+}

@@ -1,0 +1,17 @@
+﻿@rendermode InteractiveServer
+@using BlazorApp1.Models
+
+<section>
+<divclass ="card">
+    <h3 class="task-name card-header-title">@album.Name</h3>
+    <p class="task-description card-content">@album.ArtistId</p>
+    <p class="task-description card-content">@album.Price</p>
+</divclass>
+</section>
+
+@code {
+
+    [Parameter]
+    public Album album { get; set; }
+   
+}

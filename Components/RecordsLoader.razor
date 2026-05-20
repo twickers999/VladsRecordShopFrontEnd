@@ -1,0 +1,24 @@
+﻿@using System.Net.Http.Json
+@using BlazorApp1.Models;
+
+@code {
+    private HttpClient httpClient;
+    private List<Album>? albums;
+
+    protected override async Task OnInitializedAsync()
+    {
+        httpClient = new HttpClient();
+
+            albums = await httpClient.GetFromJsonAsync<List<Album>>(
+                "https://localhost:7220/album");
+    }
+
+}
+@if (albums != null)
+{
+    <div><RecordsSummaryList albums="albums" /></div>
+}
+else
+{
+    <div>Loading Albums...</div>
+}

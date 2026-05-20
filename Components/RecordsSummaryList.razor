@@ -1,0 +1,20 @@
+﻿@rendermode InteractiveServer
+@using BlazorApp1.Models
+@using System.Text.Json;
+
+<div>
+    <h2 class="content has-text-centered title is-1">Albums:</h2>
+    <ul>
+        @foreach (var album in albums)
+        {
+            <RecordSummary album ="album"></RecordSummary>
+        }
+    </ul>
+</div>
+
+@code {
+
+    [Parameter]
+    public List<Album> albums { get; set; }
+   
+}
